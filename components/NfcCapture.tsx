@@ -102,7 +102,8 @@ const NfcCapture: React.FC<NfcCaptureProps> = ({ onVitalsCaptured }) => {
 
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    // Fix: Use 'number' for setTimeout's return type in browser environments.
+    let timer: number;
     if (status === 'success' || status === 'error') {
       timer = setTimeout(() => setStatus('idle'), 3000);
     }
