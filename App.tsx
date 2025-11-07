@@ -1,9 +1,8 @@
-
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import Dashboard from './components/Dashboard';
-import CaregiverPortal from './components/CaregiverPortal';
-import VideoConsultation from './components/VideoConsultation';
+import Header from './components/Header.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import CaregiverPortal from './components/CaregiverPortal.tsx';
+import VideoConsultation from './components/VideoConsultation.tsx';
 
 type Tab = 'dashboard' | 'portal' | 'consultation';
 

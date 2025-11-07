@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { NewVitalData } from '../types';
-import { parseVitalsFromText } from '../services/geminiService';
-import Spinner from './Spinner';
+import { NewVitalData } from '../types.ts';
+import { parseVitalsFromText } from '../services/geminiService.ts';
+import Spinner from './Spinner.tsx';
 
 interface VoiceEntryModalProps {
   onClose: () => void;

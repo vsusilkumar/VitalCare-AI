@@ -1,8 +1,7 @@
-
 import React, { useState, useCallback, useMemo } from 'react';
-import { Alert, MedicationReminder, ChatMessage, VitalSignType, Patient } from '../types';
-import VitalsCard from './VitalsCard';
-import VitalsChart from './VitalsChart';
+import { Alert, MedicationReminder, ChatMessage, VitalSignType, Patient } from '../types.ts';
+import VitalsCard from './VitalsCard.tsx';
+import VitalsChart from './VitalsChart.tsx';
 
 // --- Mock Data for the Portal ---
 const mockAlerts: Alert[] = [

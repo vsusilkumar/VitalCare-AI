@@ -1,11 +1,11 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { VitalSignType, Patient, BloodPressureValue, VitalsHistory, NewVitalData } from '../types';
-import VitalsCard from './VitalsCard';
-import VitalsChart from './VitalsChart';
-import HealthInsights from './HealthInsights';
-import ManualEntryModal from './ManualEntryModal';
-import NfcCapture from './NfcCapture';
-import VoiceEntryModal from './VoiceEntryModal';
+import { VitalSignType, Patient, BloodPressureValue, VitalsHistory, NewVitalData } from '../types.ts';
+import VitalsCard from './VitalsCard.tsx';
+import VitalsChart from './VitalsChart.tsx';
+import HealthInsights from './HealthInsights.tsx';
+import ManualEntryModal from './ManualEntryModal.tsx';
+import NfcCapture from './NfcCapture.tsx';
+import VoiceEntryModal from './VoiceEntryModal.tsx';
 
 type TimeRange = '24h' | '7d' | '30d';
 

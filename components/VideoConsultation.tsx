@@ -1,8 +1,7 @@
-
 import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { VitalSignType, Patient } from '../types';
-import VitalsCard from './VitalsCard';
-import VitalsChart from './VitalsChart';
+import { VitalSignType, Patient } from '../types.ts';
+import VitalsCard from './VitalsCard.tsx';
+import VitalsChart from './VitalsChart.tsx';
 
 // Mock data generation specific for this component's needs
 const generateMockData = (): Patient => {

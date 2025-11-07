@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { NewVitalData } from '../types';
+import { NewVitalData } from '../types.ts';
 
 interface NfcCaptureProps {
   onVitalsCaptured: (data: NewVitalData) => void;

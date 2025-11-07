@@ -1,7 +1,6 @@
-
 import React, { useState, useMemo, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { VitalSignType } from '../types';
+import { VitalSignType } from '../types.ts';
 
 interface ChartDataPoint {
   timestamp: Date;

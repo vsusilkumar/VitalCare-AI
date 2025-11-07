@@ -54,7 +54,7 @@
 </head>
   <body class="bg-light text-dark">
     <div id="root"></div>
-    <!-- Changed type from "module" to "text/babel" to enable transpilation -->
-    <script type="text/babel" src="./index.tsx"></script>
+    <!-- Configure Babel to transpile JSX and TypeScript modules -->
+    <script type="text/babel" data-presets="react,typescript" data-type="module" src="./index.tsx"></script>
   </body>
 </html>

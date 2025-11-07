@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NewVitalData } from '../types';
+import { NewVitalData } from '../types.ts';
 
 interface ManualEntryModalProps {
   onClose: () => void;

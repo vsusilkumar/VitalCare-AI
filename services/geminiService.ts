@@ -1,6 +1,5 @@
-
 import { GoogleGenAI, Type } from '@google/genai';
-import { FeatureIdea, VitalsHistory, VitalSignType, HealthInsight, NewVitalData } from '../types';
+import { FeatureIdea, VitalsHistory, VitalSignType, HealthInsight, NewVitalData } from '../types.ts';
 
 // Helper function to get the API client on demand
 const getAiClient = (): GoogleGenAI => {

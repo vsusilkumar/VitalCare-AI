@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { VitalsHistory, HealthInsight } from '../types';
-import { getHealthInsights } from '../services/geminiService';
-import Spinner from './Spinner';
+import { VitalsHistory, HealthInsight } from '../types.ts';
+import { getHealthInsights } from '../services/geminiService.ts';
+import Spinner from './Spinner.tsx';
 
 interface HealthInsightsProps {
   vitals: VitalsHistory;

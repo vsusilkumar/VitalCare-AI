@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
-import { getFeatureIdeas } from '../services/geminiService';
-import { FeatureIdea } from '../types';
-import Spinner from './Spinner';
+import { getFeatureIdeas } from '../services/geminiService.ts';
+import { FeatureIdea } from '../types.ts';
+import Spinner from './Spinner.tsx';
 
 const initialIdeas: FeatureIdea[] = [
   {
