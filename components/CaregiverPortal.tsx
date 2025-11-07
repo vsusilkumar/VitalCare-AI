@@ -5,6 +5,35 @@ import VitalsChart from './VitalsChart.tsx';
 import SmartAlerts from './SmartAlerts.tsx';
 import DailyLog from './DailyLog.tsx';
 
+// --- Normal Ranges for Vitals ---
+const NORMAL_RANGES = {
+  [VitalSignType.HeartRate]: { min: 60, max: 100 },
+  [VitalSignType.BloodPressure]: { systolic: { min: 90, max: 140 }, diastolic: { min: 60, max: 90 } },
+  [VitalSignType.Temperature]: { min: 36.1, max: 37.2 },
+  [VitalSignType.OxygenSaturation]: { min: 95, max: 100 },
+};
+
+const isVitalCritical = (type: VitalSignType, value: any): boolean => {
+  try {
+    switch (type) {
+      case VitalSignType.HeartRate:
+        return value < NORMAL_RANGES[type].min || value > NORMAL_RANGES[type].max;
+      case VitalSignType.BloodPressure:
+        return value.systolic < NORMAL_RANGES[type].systolic.min || value.systolic > NORMAL_RANGES[type].systolic.max ||
+               value.diastolic < NORMAL_RANGES[type].diastolic.min || value.diastolic > NORMAL_RANGES[type].diastolic.max;
+      case VitalSignType.Temperature:
+        return value < NORMAL_RANGES[type].min || value > NORMAL_RANGES[type].max;
+      case VitalSignType.OxygenSaturation:
+        return value < NORMAL_RANGES[type].min; // Only check for lower bound
+      default:
+        return false;
+    }
+  } catch(e) {
+      return false;
+  }
+};
+
+
 // --- Mock Data for the Portal ---
 const mockInitialReminders: MedicationReminder[] = [
   { id: 'med1', medication: 'Lisinopril', dosage: '10mg', time: '08:00 AM' },
@@ -146,10 +175,10 @@ const CaregiverPortal: React.FC = () => {
                 <div className="mb-8">
                     <h3 className="text-xl font-semibold text-gray-700 mb-4">Patient Vitals Overview (Last 24h)</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                        <VitalsCard title="Heart Rate" value={`${latestVitals[VitalSignType.HeartRate].value}`} unit="bpm" trend="stable" onClick={() => setActiveVital(VitalSignType.HeartRate)} isActive={activeVital === VitalSignType.HeartRate} />
-                        <VitalsCard title="Blood Pressure" value={`${latestVitals[VitalSignType.BloodPressure].value.systolic}/${latestVitals[VitalSignType.BloodPressure].value.diastolic}`} unit="mmHg" trend="stable" onClick={() => setActiveVital(VitalSignType.BloodPressure)} isActive={activeVital === VitalSignType.BloodPressure}/>
-                        <VitalsCard title="Temperature" value={`${latestVitals[VitalSignType.Temperature].value.toFixed(1)}`} unit="°C" trend="stable" onClick={() => setActiveVital(VitalSignType.Temperature)} isActive={activeVital === VitalSignType.Temperature}/>
-                        <VitalsCard title="O₂ Saturation" value={`${latestVitals[VitalSignType.OxygenSaturation].value.toFixed(1)}`} unit="%" trend="stable" onClick={() => setActiveVital(VitalSignType.OxygenSaturation)} isActive={activeVital === VitalSignType.OxygenSaturation}/>
+                        <VitalsCard title="Heart Rate" value={`${latestVitals[VitalSignType.HeartRate].value}`} unit="bpm" trend="stable" onClick={() => setActiveVital(VitalSignType.HeartRate)} isActive={activeVital === VitalSignType.HeartRate} isCritical={isVitalCritical(VitalSignType.HeartRate, latestVitals[VitalSignType.HeartRate].value)} />
+                        <VitalsCard title="Blood Pressure" value={`${latestVitals[VitalSignType.BloodPressure].value.systolic}/${latestVitals[VitalSignType.BloodPressure].value.diastolic}`} unit="mmHg" trend="stable" onClick={() => setActiveVital(VitalSignType.BloodPressure)} isActive={activeVital === VitalSignType.BloodPressure} isCritical={isVitalCritical(VitalSignType.BloodPressure, latestVitals[VitalSignType.BloodPressure].value)} />
+                        <VitalsCard title="Temperature" value={`${latestVitals[VitalSignType.Temperature].value.toFixed(1)}`} unit="°C" trend="stable" onClick={() => setActiveVital(VitalSignType.Temperature)} isActive={activeVital === VitalSignType.Temperature} isCritical={isVitalCritical(VitalSignType.Temperature, latestVitals[VitalSignType.Temperature].value)} />
+                        <VitalsCard title="O₂ Saturation" value={`${latestVitals[VitalSignType.OxygenSaturation].value.toFixed(1)}`} unit="%" trend="stable" onClick={() => setActiveVital(VitalSignType.OxygenSaturation)} isActive={activeVital === VitalSignType.OxygenSaturation} isCritical={isVitalCritical(VitalSignType.OxygenSaturation, latestVitals[VitalSignType.OxygenSaturation].value)} />
                     </div>
                     <VitalsChart data={chartData} vitalType={activeVital} timeRange="24h" />
                 </div>

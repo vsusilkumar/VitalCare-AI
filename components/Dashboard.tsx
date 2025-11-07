@@ -9,6 +9,33 @@ import VoiceEntryModal from './VoiceEntryModal.tsx';
 
 type TimeRange = '24h' | '7d' | '30d';
 
+const NORMAL_RANGES = {
+  [VitalSignType.HeartRate]: { min: 60, max: 100 },
+  [VitalSignType.BloodPressure]: { systolic: { min: 90, max: 140 }, diastolic: { min: 60, max: 90 } },
+  [VitalSignType.Temperature]: { min: 36.1, max: 37.2 },
+  [VitalSignType.OxygenSaturation]: { min: 95, max: 100 },
+};
+
+const isVitalCritical = (type: VitalSignType, value: any): boolean => {
+  try {
+    switch (type) {
+      case VitalSignType.HeartRate:
+        return value < NORMAL_RANGES[type].min || value > NORMAL_RANGES[type].max;
+      case VitalSignType.BloodPressure:
+        return value.systolic < NORMAL_RANGES[type].systolic.min || value.systolic > NORMAL_RANGES[type].systolic.max ||
+               value.diastolic < NORMAL_RANGES[type].diastolic.min || value.diastolic > NORMAL_RANGES[type].diastolic.max;
+      case VitalSignType.Temperature:
+        return value < NORMAL_RANGES[type].min || value > NORMAL_RANGES[type].max;
+      case VitalSignType.OxygenSaturation:
+        return value < NORMAL_RANGES[type].min; // Only check for lower bound
+      default:
+        return false;
+    }
+  } catch(e) {
+      return false;
+  }
+};
+
 const generateMockData = (range: TimeRange): Patient => {
   const now = new Date();
   let count: number;
@@ -192,6 +219,7 @@ const Dashboard: React.FC = () => {
           trend={getTrend(patient.vitals[VitalSignType.HeartRate])}
           onClick={() => setActiveVital(VitalSignType.HeartRate)}
           isActive={activeVital === VitalSignType.HeartRate}
+          isCritical={isVitalCritical(VitalSignType.HeartRate, latestVitals[VitalSignType.HeartRate].value)}
         />
         <VitalsCard
           title="Blood Pressure"
@@ -200,6 +228,7 @@ const Dashboard: React.FC = () => {
           trend={getBPTrend(patient.vitals[VitalSignType.BloodPressure])}
           onClick={() => setActiveVital(VitalSignType.BloodPressure)}
           isActive={activeVital === VitalSignType.BloodPressure}
+          isCritical={isVitalCritical(VitalSignType.BloodPressure, latestVitals[VitalSignType.BloodPressure].value)}
         />
         <VitalsCard
           title="Temperature"
@@ -208,6 +237,7 @@ const Dashboard: React.FC = () => {
           trend={getTrend(patient.vitals[VitalSignType.Temperature])}
           onClick={() => setActiveVital(VitalSignType.Temperature)}
           isActive={activeVital === VitalSignType.Temperature}
+          isCritical={isVitalCritical(VitalSignType.Temperature, latestVitals[VitalSignType.Temperature].value)}
         />
         <VitalsCard
           title="O₂ Saturation"
@@ -216,6 +246,7 @@ const Dashboard: React.FC = () => {
           trend={getTrend(patient.vitals[VitalSignType.OxygenSaturation])}
           onClick={() => setActiveVital(VitalSignType.OxygenSaturation)}
           isActive={activeVital === VitalSignType.OxygenSaturation}
+          isCritical={isVitalCritical(VitalSignType.OxygenSaturation, latestVitals[VitalSignType.OxygenSaturation].value)}
         />
       </div>
 
