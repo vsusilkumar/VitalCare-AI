@@ -16,12 +16,12 @@ const generateMockData = (range: TimeRange): Patient => {
 
   switch (range) {
     case '7d':
-      count = 7;
-      timeStep = 24 * 60 * 60 * 1000; // 1 day
+      count = 7 * 24; // hourly for 7 days
+      timeStep = 60 * 60 * 1000;
       break;
     case '30d':
       count = 30;
-      timeStep = 24 * 60 * 60 * 1000; // 1 day
+      timeStep = 24 * 60 * 60 * 1000; // daily for 30 days
       break;
     case '24h':
     default:
@@ -39,6 +39,11 @@ const generateMockData = (range: TimeRange): Patient => {
   return {
     name: 'Manish Sharma',
     age: 82,
+    medicalHistory: "Patient has a history of hypertension (high blood pressure) managed with Lisinopril for the past 10 years. Diagnosed with Type 2 Diabetes in 2015, controlled with diet and Metformin. Reports mild arthritis in the knees. Allergic to Penicillin, which causes a rash.",
+    medicalSummary: {
+        conditions: ["Hypertension", "Type 2 Diabetes", "Mild Arthritis"],
+        allergies: ["Penicillin"]
+    },
     vitals: {
       [VitalSignType.HeartRate]: generateReadings((i) => Math.round(65 + Math.random() * 10 - 5 + Math.sin(i / 4) * 3)),
       [VitalSignType.BloodPressure]: generateReadings((i) => ({
@@ -59,7 +64,7 @@ const Dashboard: React.FC = () => {
   const [isVoiceModalOpen, setIsVoiceModalOpen] = useState(false);
   
   useEffect(() => {
-    setPatient(generateMockData(timeRange));
+    setPatient(prev => ({...prev, vitals: generateMockData(timeRange).vitals}));
   }, [timeRange]);
 
   const handleAddNewVital = useCallback((newData: NewVitalData) => {
@@ -146,8 +151,18 @@ const Dashboard: React.FC = () => {
   return (
     <section>
       <div className="mb-6 bg-white p-4 rounded-lg shadow">
-        <h2 className="text-2xl font-bold text-gray-800">{patient.name}</h2>
-        <p className="text-gray-500">Age: {patient.age}</p>
+        <div className="flex justify-between items-start">
+            <div>
+                <h2 className="text-2xl font-bold text-gray-800">{patient.name}</h2>
+                <p className="text-gray-500">Age: {patient.age}</p>
+            </div>
+            <div className="text-right">
+                <h3 className="text-sm font-semibold text-gray-600">Key Conditions</h3>
+                <p className="text-sm text-gray-500">{patient.medicalSummary.conditions.join(', ')}</p>
+                <h3 className="text-sm font-semibold text-gray-600 mt-1">Allergies</h3>
+                <p className="text-sm text-red-500">{patient.medicalSummary.allergies.join(', ')}</p>
+            </div>
+        </div>
       </div>
       
       <div className="mb-6 bg-white p-4 rounded-lg shadow">
@@ -228,7 +243,7 @@ const Dashboard: React.FC = () => {
         <VitalsChart data={chartData} vitalType={activeVital} timeRange={timeRange} />
       </div>
 
-      <HealthInsights vitals={patient.vitals} />
+      <HealthInsights vitals={patient.vitals} patient={patient}/>
       
       {isManualModalOpen && (
         <ManualEntryModal 

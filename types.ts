@@ -26,6 +26,11 @@ export interface Patient {
   name: string;
   age: number;
   vitals: VitalsHistory;
+  medicalHistory: string;
+  medicalSummary: {
+    conditions: string[];
+    allergies: string[];
+  };
 }
 
 export interface FeatureIdea {
@@ -65,4 +70,31 @@ export interface ChatMessage {
   sender: 'Caregiver' | 'Medical Team';
   text: string;
   timestamp: string;
+}
+
+export interface ConsultationSummary {
+  keyObservations: string[];
+  suggestedQuestions: string[];
+}
+
+export interface SmartAlert {
+  id: string;
+  severity: 'Observation' | 'Warning';
+  finding: string;
+  context: string;
+  timestamp: string;
+}
+
+export interface DailyLogEntry {
+  id: string;
+  type: 'meal' | 'activity';
+  description: string;
+  timestamp: Date;
+}
+
+export interface EmergencyContact {
+  id: string;
+  name: string;
+  relationship: string;
+  phone: string;
 }

@@ -156,7 +156,7 @@ const VoiceEntryModal: React.FC<VoiceEntryModalProps> = ({ onClose, onSave }) =>
                     {status === 'listening' && <p className="text-gray-500 mb-4 animate-pulse">Listening...</p>}
                     {status === 'processing' && (
                         <div className="flex flex-col items-center">
-                           <Spinner />
+                           <Spinner className="text-primary" />
                            <p className="text-gray-500 mt-4">AI is analyzing your speech...</p>
                         </div>
                     )}

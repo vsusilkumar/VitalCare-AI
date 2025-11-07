@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { VitalSignType, Patient } from '../types.ts';
 import VitalsCard from './VitalsCard.tsx';
 import VitalsChart from './VitalsChart.tsx';
+import AiConsultationHelper from './AiConsultationHelper.tsx';
 
 // Mock data generation specific for this component's needs
 const generateMockData = (): Patient => {
@@ -15,6 +16,11 @@ const generateMockData = (): Patient => {
   return {
     name: 'Manish Sharma',
     age: 82,
+    medicalHistory: "Patient has a history of hypertension (high blood pressure) managed with Lisinopril for the past 10 years. Diagnosed with Type 2 Diabetes in 2015, controlled with diet and Metformin. Reports mild arthritis in the knees. Allergic to Penicillin, which causes a rash.",
+    medicalSummary: {
+        conditions: ["Hypertension", "Type 2 Diabetes", "Mild Arthritis"],
+        allergies: ["Penicillin"]
+    },
     vitals: {
       [VitalSignType.HeartRate]: generateReadings((i) => Math.round(72 + Math.random() * 8 - 4)),
       [VitalSignType.BloodPressure]: generateReadings((i) => ({
@@ -273,6 +279,9 @@ const VideoConsultation: React.FC = () => {
                                     <path fillRule="evenodd" clipRule="evenodd" d="M19.992 19.34a1 1 0 01-1.12.843 14.493 14.493 0 01-7.74-3.545 14.493 14.493 0 01-3.545-7.74 1 1 0 01.843-1.12l2.095-.524a1 1 0 011.05.578l1.196 2.69a1 1 0 01-.2 1.156l-1.45 1.45a11.5 11.5 0 005.122 5.122l1.45-1.45a1 1 0 011.156-.2l2.69 1.196a1 1 0 01.578 1.05l-.524 2.095z" />
                                 </svg>
                             </button>
+                        </div>
+                        <div className="mt-6">
+                            <AiConsultationHelper patient={patient} />
                         </div>
                     </div>
 

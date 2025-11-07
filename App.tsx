@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Header from './components/Header.tsx';
 import Dashboard from './components/Dashboard.tsx';
 import CaregiverPortal from './components/CaregiverPortal.tsx';
@@ -8,21 +8,6 @@ type Tab = 'dashboard' | 'portal' | 'consultation';
 
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<Tab>('dashboard');
-  const [apiKey, setApiKey] = useState<string>('');
-
-  useEffect(() => {
-    // Check for the API key in session storage on initial load
-    const storedApiKey = sessionStorage.getItem('gemini_api_key');
-    if (storedApiKey) {
-      setApiKey(storedApiKey);
-    }
-  }, []);
-
-  const handleApiKeyChange = (newKey: string) => {
-    setApiKey(newKey);
-    sessionStorage.setItem('gemini_api_key', newKey);
-  };
-
 
   const getTabClasses = (tabName: Tab) => {
     const baseClasses = "whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm focus:outline-none";
@@ -34,7 +19,7 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
-      <Header apiKey={apiKey} onApiKeyChange={handleApiKeyChange} />
+      <Header />
       <main className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto">
         <div className="mb-6 border-b border-gray-200">
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">

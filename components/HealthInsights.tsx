@@ -1,13 +1,14 @@
 import React, { useState, useCallback } from 'react';
-import { VitalsHistory, HealthInsight } from '../types.ts';
+import { VitalsHistory, HealthInsight, Patient } from '../types.ts';
 import { getHealthInsights } from '../services/geminiService.ts';
 import Spinner from './Spinner.tsx';
 
 interface HealthInsightsProps {
   vitals: VitalsHistory;
+  patient: Patient;
 }
 
-const HealthInsights: React.FC<HealthInsightsProps> = ({ vitals }) => {
+const HealthInsights: React.FC<HealthInsightsProps> = ({ vitals, patient }) => {
   const [insights, setInsights] = useState<HealthInsight | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +18,7 @@ const HealthInsights: React.FC<HealthInsightsProps> = ({ vitals }) => {
     setError(null);
     setInsights(null);
     try {
-      const result = await getHealthInsights(vitals);
+      const result = await getHealthInsights(vitals, patient);
       setInsights(result);
     } catch (err) {
       if (err instanceof Error) {
@@ -29,7 +30,7 @@ const HealthInsights: React.FC<HealthInsightsProps> = ({ vitals }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [vitals]);
+  }, [vitals, patient]);
 
   return (
     <section className="mt-8">

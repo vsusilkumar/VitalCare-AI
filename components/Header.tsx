@@ -1,29 +1,7 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-interface HeaderProps {
-    apiKey: string;
-    onApiKeyChange: (key: string) => void;
-}
-
-const Header: React.FC<HeaderProps> = ({ apiKey, onApiKeyChange }) => {
-  const [localApiKey, setLocalApiKey] = useState(apiKey);
-  const [isSaved, setIsSaved] = useState(!!apiKey);
-
-  useEffect(() => {
-    setLocalApiKey(apiKey);
-    setIsSaved(!!apiKey);
-  }, [apiKey]);
-
-  const handleSave = () => {
-    onApiKeyChange(localApiKey);
-    setIsSaved(true);
-  };
-  
-  const handleEdit = () => {
-      setIsSaved(false);
-  }
-
+const Header: React.FC = () => {
   return (
     <header className="bg-white shadow-sm sticky top-0 z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -47,31 +25,7 @@ const Header: React.FC<HeaderProps> = ({ apiKey, onApiKeyChange }) => {
               VitalCare <span className="text-primary">AI</span>
             </h1>
           </div>
-          <div className="flex items-center space-x-2">
-             {isSaved ? (
-                 <div className="flex items-center space-x-2">
-                    <span className="text-sm text-green-600 font-medium">API Key Saved</span>
-                    <button onClick={handleEdit} className="text-sm text-primary hover:underline">Edit</button>
-                 </div>
-             ) : (
-                <>
-                    <input
-                        type="password"
-                        placeholder="Enter Gemini API Key"
-                        value={localApiKey}
-                        onChange={(e) => setLocalApiKey(e.target.value)}
-                        className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary"
-                    />
-                    <button 
-                        onClick={handleSave} 
-                        disabled={!localApiKey}
-                        className="px-3 py-1 text-sm font-medium text-white bg-primary rounded-md hover:bg-opacity-90 focus:outline-none disabled:bg-gray-400"
-                    >
-                        Save
-                    </button>
-                </>
-             )}
-          </div>
+          {/* API Key input removed to comply with guidelines */}
         </div>
       </div>
     </header>
