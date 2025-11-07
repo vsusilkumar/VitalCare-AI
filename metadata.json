@@ -1,0 +1,8 @@
+{
+  "name": "VitalCare AI",
+  "description": "An application to manage patient vitals, especially for the elderly, and to generate innovative ideas for expanding its features using AI.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
